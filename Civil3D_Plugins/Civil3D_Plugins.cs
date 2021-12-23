@@ -11,5 +11,14 @@ namespace Civil3D_Plugins
             var creator = new Alignment_from_Pline();
             creator.Create();
         }
+        
+        // Create Surface Profile
+        [CommandMethod("sp")]
+        public void surface_profile()
+        {
+            var creator = new Surface_Profile();
+            creator.Create();
+        }
+        
     }
 }

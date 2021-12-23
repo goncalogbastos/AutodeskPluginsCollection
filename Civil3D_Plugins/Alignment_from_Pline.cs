@@ -20,7 +20,7 @@ namespace Civil3D_Plugins
             opt.SetRejectMessage("\nObject must be a polyline.");
             opt.AddAllowedClass(typeof(Polyline), false);
             PromptEntityResult res = ed.GetEntity(opt);
-
+                       
             // create some polyline options for creating the new alignment
             PolylineOptions plops = new PolylineOptions();
             plops.AddCurvesBetweenTangents = false;
@@ -31,15 +31,16 @@ namespace Civil3D_Plugins
             PromptStringOptions pso = new PromptStringOptions("\nEnter alignment name: ");
             pso.AllowSpaces = true;
             PromptResult pr = ed.GetString(pso);
-            string alignmentName = pr.ToString();
+            string alignmentName = pr.StringResult;
 
             // Define your own layers, styles and labels
             string LayerId = "C-ROAD";
             string align_style = "COBA_EIXO";
             string label_style = "COBA_Eixo_PExecução";
-
+            
             // Create the alignment from object
             ObjectId alignObjId = Alignment.Create(civil_doc,plops,alignmentName, null, LayerId, align_style, label_style);
+            
         }
     }
 }
