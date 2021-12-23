@@ -4,11 +4,11 @@ namespace Civil3D_Plugins
 {
     public class Civil3D_Plugins
     {
-        // Count Civil alignments
+        // Create Alignment from polyline
         [CommandMethod("ca")]
-        public void create_alignment()
+        public void alignment_from_pline()
         {
-            var creator = new Create_Alignments();
+            var creator = new Alignment_from_Pline();
             creator.Create();
         }
     }
