@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Civil3D_Plugins.cs" />
     <Compile Include="Alignment_from_Pline.cs" />
+    <Compile Include="Corridor_Frequency.cs" />
     <Compile Include="Profile_View.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Surface_Profile.cs" />

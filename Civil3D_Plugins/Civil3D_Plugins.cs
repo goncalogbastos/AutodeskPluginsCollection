@@ -28,5 +28,13 @@ namespace Civil3D_Plugins
             creator.Create();
         }
 
+        // Change Corridor frequency
+        [CommandMethod("fr")]
+        public void corridor_frequency()
+        {
+            var creator = new Corridor_Frequency();
+            creator.Create();
+        }
+
     }
 }
