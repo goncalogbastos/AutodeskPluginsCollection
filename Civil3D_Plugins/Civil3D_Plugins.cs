@@ -19,6 +19,14 @@ namespace Civil3D_Plugins
             var creator = new Surface_Profile();
             creator.Create();
         }
-        
+
+        // Create Profile View
+        [CommandMethod("pv")]
+        public void profile_view()
+        {
+            var creator = new Profile_View();
+            creator.Create();
+        }
+
     }
 }

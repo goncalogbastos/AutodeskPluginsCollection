@@ -57,8 +57,6 @@ namespace Civil3D_Plugins
                     ed.WriteMessage("/n Exception message :" + ex.Message);
                 }
             }
-
-
         }
     }
 }
