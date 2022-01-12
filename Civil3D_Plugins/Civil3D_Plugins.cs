@@ -36,5 +36,13 @@ namespace Civil3D_Plugins
             creator.Create();
         }
 
+        // Set all targets on corridor
+        [CommandMethod("st")]
+        public void corridor_targets()
+        {
+            var creator = new Corridor_Targets();
+            creator.Create();
+        }
+
     }
 }
