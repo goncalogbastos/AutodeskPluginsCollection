@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="AutoCAD_Plugins.cs" />
     <Compile Include="Aux_Layer.cs" />
+    <Compile Include="Get_Slope.cs" />
     <Compile Include="Insert_Block.cs" />
     <Compile Include="New_Block.cs" />
     <Compile Include="New_Layer.cs" />
