@@ -52,5 +52,13 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
+        //Area of closed polyline in field       
+        [CommandMethod("aaa")]
+        public void area_pline_field()
+        {
+            var creator = new Area_Pline_Field();
+            creator.Create();
+        }
+
     }
 }
