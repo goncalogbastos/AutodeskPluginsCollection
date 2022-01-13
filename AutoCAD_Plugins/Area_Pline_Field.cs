@@ -1,9 +1,6 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using System;
-using Autodesk.AutoCAD.Runtime;
 
 namespace AutoCAD_Plugins
 {
@@ -40,7 +37,6 @@ namespace AutoCAD_Plugins
                         pso.AllowSpaces = true;
                         PromptResult pr = ed.GetString(pso);
                         string alignmentName = pr.StringResult;
-
 
                         // Create a field with area of the polyline -> <NAME> + <FIELD> + km2
                         string strObjId = res.ObjectId.ToString();
