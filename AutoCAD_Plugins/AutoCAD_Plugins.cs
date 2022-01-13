@@ -44,7 +44,6 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-
         // Gets the slope of a polyline        
         [CommandMethod("gsl")]
         public void get_slop()
