@@ -59,11 +59,13 @@
     <Compile Include="Area_Pline_Field.cs" />
     <Compile Include="AutoCAD_Plugins.cs" />
     <Compile Include="Aux_Layer.cs" />
+    <Compile Include="Double_Offset.cs" />
     <Compile Include="Get_Slope.cs" />
     <Compile Include="Insert_Block.cs" />
     <Compile Include="New_Block.cs" />
     <Compile Include="New_Layer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Select_Objects_Inside_Polyline.cs" />
     <Compile Include="Slope.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

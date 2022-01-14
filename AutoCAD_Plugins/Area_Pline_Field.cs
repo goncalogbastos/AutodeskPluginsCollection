@@ -33,12 +33,12 @@ namespace AutoCAD_Plugins
                         }
 
                         // Prompt the user for the alignment name
-                        PromptStringOptions pso = new PromptStringOptions("\nEnter catchment name: ");
+                        PromptStringOptions pso = new PromptStringOptions("\nEnter name: ");
                         pso.AllowSpaces = true;
                         PromptResult pr = ed.GetString(pso);
                         string alignmentName = pr.StringResult;
 
-                        // Create a field with area of the polyline -> <NAME> + <FIELD> + km2
+                        // Create a field with area of the polyline -> <NAME> + <FIELD> + <km2>
                         string strObjId = res.ObjectId.ToString();
                         strObjId = strObjId.Replace("(", "");
                         strObjId = strObjId.Replace(")", "");

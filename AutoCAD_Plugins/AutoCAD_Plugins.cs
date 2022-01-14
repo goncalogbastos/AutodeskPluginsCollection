@@ -52,11 +52,27 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        //Area of closed polyline in field       
+        //Area of closed polyline       
         [CommandMethod("aaa")]
         public void area_pline_field()
         {
             var creator = new Area_Pline_Field();
+            creator.Create();
+        }
+
+        //Double offset of polyline       
+        [CommandMethod("do")]
+        public void double_offset()
+        {
+            var creator = new Double_Offset();
+            creator.Create();
+        }
+
+        // Select all objects inside an object
+        [CommandMethod("wps")]
+        public void select_objects_inside_polyline()
+        {
+            var creator = new Select_Objects_Inside_Polyline();
             creator.Create();
         }
 
