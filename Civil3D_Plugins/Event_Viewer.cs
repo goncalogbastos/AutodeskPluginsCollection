@@ -18,8 +18,7 @@ namespace Civil3D_Plugins
                 {
                     var event_viewer = civil_doc.Settings.DrawingSettings.AmbientSettings.General.ShowEventViewer;
                     event_viewer.Value = false;
-
-
+                    ed.WriteMessage("Event viewer was turned off.");
                     tr.Commit();
                 }
 
