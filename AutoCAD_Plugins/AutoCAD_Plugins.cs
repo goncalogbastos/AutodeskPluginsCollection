@@ -76,5 +76,13 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
+        // Change current view to top view
+        [CommandMethod("vt")]
+        public void current_view_top()
+        {
+            var creator = new Current_View_Top();
+            creator.Create();
+        }
+
     }
 }
