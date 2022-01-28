@@ -69,7 +69,7 @@ namespace AutoCAD_Plugins
         }
 
         // Select all objects inside an object
-        [CommandMethod("wps")]
+        [CommandMethod("oip")]
         public void select_objects_inside_polyline()
         {
             var creator = new Select_Objects_Inside_Polyline();

@@ -18,11 +18,8 @@ namespace AutoCAD_Plugins
             try
             {
                 doc = Application.DocumentManager.MdiActiveDocument;
-                if (doc == null)
-                    throw new System.Exception("No MdiActiveDocument");
                 db = doc.Database;
                 ed = doc.Editor;
-
 
                 TypedValue[] plTv = new TypedValue[] { new TypedValue(0, "LWPOLYLINE") };
                 SelectionFilter plFlt = new SelectionFilter(plTv);

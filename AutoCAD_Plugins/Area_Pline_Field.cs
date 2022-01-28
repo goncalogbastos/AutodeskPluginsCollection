@@ -13,7 +13,7 @@ namespace AutoCAD_Plugins
             {
                 var doc = Application.DocumentManager.MdiActiveDocument;
                 var db = doc.Database;
-                var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+                var ed = doc.Editor;
 
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {

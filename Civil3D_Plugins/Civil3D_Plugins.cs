@@ -44,5 +44,13 @@ namespace Civil3D_Plugins
             creator.Create();
         }
 
+        // Turn off event viewer
+        [CommandMethod("ev")]
+        public void event_viewer()
+        {
+            var creator = new Event_Viewer();
+            creator.Create();
+        }
+
     }
 }
