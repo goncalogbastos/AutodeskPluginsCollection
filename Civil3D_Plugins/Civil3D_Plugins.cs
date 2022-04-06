@@ -52,5 +52,14 @@ namespace Civil3D_Plugins
             creator.Create();
         }
 
+        // Change Surface Style
+        [CommandMethod("tr")]
+        public void surface_style()
+        {
+            var creator = new Surface_Style();
+            creator.Create();
+        }
+
+
     }
 }
