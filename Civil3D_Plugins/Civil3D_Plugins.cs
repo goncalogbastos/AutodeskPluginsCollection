@@ -60,6 +60,14 @@ namespace Civil3D_Plugins
             creator.Create();
         }
 
+        // Create Offset Alignment
+        [CommandMethod("oa")]
+        public void offset_alignment()
+        {
+            var creator = new Offset_Alignment();
+            creator.Create();
+        }
+
 
     }
 }
