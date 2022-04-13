@@ -53,7 +53,7 @@ namespace Civil3D_Plugins
         }
 
         // Change Surface Style
-        [CommandMethod("tr")]
+        [CommandMethod("ss")]
         public void surface_style()
         {
             var creator = new Surface_Style();

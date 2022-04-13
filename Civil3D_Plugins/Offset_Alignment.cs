@@ -26,11 +26,6 @@ namespace Civil3D_Plugins
                     if (res.Status != PromptStatus.OK) return;
                     ObjectId alignmentId = res.ObjectId;
 
-                    if (res.Status != PromptStatus.OK)
-                    {
-                        running = false;
-                        return;
-                    }
 
                     Alignment myAlignment = tr.GetObject(alignmentId, OpenMode.ForWrite) as Alignment;
 

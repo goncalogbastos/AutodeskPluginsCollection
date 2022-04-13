@@ -1,8 +1,6 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
 
 namespace AutoCAD_Plugins
 {
@@ -27,7 +25,8 @@ namespace AutoCAD_Plugins
                     {
                         view.ViewDirection = viewDir;
                         ed.SetCurrentView(view);
-                    }
+                    }                    
+
                     tr.Commit();
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception ex)
