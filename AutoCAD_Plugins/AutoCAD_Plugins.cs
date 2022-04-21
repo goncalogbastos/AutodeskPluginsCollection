@@ -52,13 +52,22 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        //Area of closed polyline       
+        //Area of closed polyline km2     
         [CommandMethod("paf")]
         public void area_pline_field()
         {
             var creator = new Area_Pline_Field();
             creator.Create();
         }
+
+        //Area of closed polyline m2    
+        [CommandMethod("aaa")]
+        public void area_pline()
+        {
+            var creator = new Area_Pline();
+            creator.Create();
+        }
+
 
         //Double offset of polyline       
         [CommandMethod("do")]
