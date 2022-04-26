@@ -68,6 +68,14 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
+        //Lenght of polyline m
+        [CommandMethod("comp")]
+        public void len_pl()
+        {
+            var creator = new Len_PL();
+            creator.Create();
+        }
+
 
         //Double offset of polyline       
         [CommandMethod("do")]
