@@ -77,6 +77,7 @@ namespace AutoCAD_Plugins
                         tr.AddNewlyCreatedDBObject(label, true);
 
                         tr.Commit();
+                        ed.Regen();
                     }
                     catch (Autodesk.AutoCAD.Runtime.Exception ex)
                     {
