@@ -76,10 +76,12 @@ namespace AutoCAD_Plugins
                             Polyline pl = new Polyline();
                             pl.AddVertexAt(0, new Point2d(insPt.X, insPt.Y), 0, 0, 0);
                             pl.AddVertexAt(1, new Point2d(insPt.X + sl_.Value * 100, insPt.Y + 100), 0, 0, 0);
-                            // Update database and commit transaction                        
+                            // Update database and commit transaction
+                            pl.ConstantWidth = 1;
                             pl.SetDatabaseDefaults();
                             btr.AppendEntity(pl);
                             tr.AddNewlyCreatedDBObject(pl, true);
+                            
                             tr.Commit();
                         }
                         else if (orient == 2)

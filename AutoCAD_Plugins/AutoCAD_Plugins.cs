@@ -101,5 +101,13 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
+        // Multiple chamfer with layer control *************************NOT FINISHED***********************
+        [CommandMethod("mc")]
+        public void multiple_chamfer()
+        {
+            var creator = new Multiple_Chamfer();
+            creator.Create();
+        }
+
     }
 }
