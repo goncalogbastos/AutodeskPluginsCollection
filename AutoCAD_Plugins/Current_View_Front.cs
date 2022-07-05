@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace AutoCAD_Plugins
 {
-    public class Current_View_Top
+    public class Current_View_Front
     {
         public void Create()
         {
@@ -20,14 +20,14 @@ namespace AutoCAD_Plugins
                     //var vDir = "Top";
 
                     Vector3d viewDir = new Vector3d();
-                    viewDir = Vector3d.ZAxis;
+                    viewDir = Vector3d.YAxis;
 
                     using (ViewTableRecord view = ed.GetCurrentView())
                     {
                         view.ViewDirection = viewDir;
                         ed.SetCurrentView(view);
                         acadApp.ZoomExtents();
-                    }                    
+                    }
 
                     tr.Commit();
                 }

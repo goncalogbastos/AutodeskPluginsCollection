@@ -101,6 +101,14 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
+        // Change current view to front view
+        [CommandMethod("vf")]
+        public void current_view_front()
+        {
+            var creator = new Current_View_Front();
+            creator.Create();
+        }
+
         // Multiple chamfer with layer control *************************NOT FINISHED***********************
         [CommandMethod("mc")]
         public void multiple_chamfer()

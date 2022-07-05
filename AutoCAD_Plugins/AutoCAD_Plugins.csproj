@@ -60,6 +60,7 @@
     <Compile Include="Area_Pline_Field.cs" />
     <Compile Include="AutoCAD_Plugins.cs" />
     <Compile Include="Aux_Layer.cs" />
+    <Compile Include="Current_View_Front.cs" />
     <Compile Include="Current_View_Top.cs" />
     <Compile Include="Double_Offset.cs" />
     <Compile Include="Get_Slope.cs" />

@@ -3,6 +3,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using System;
+using System.Linq;
 
 namespace Civil3D_Plugins
 {
@@ -18,34 +20,65 @@ namespace Civil3D_Plugins
             {
                 try
                 {
-                    // Ask the user to select a surface
-                    PromptEntityOptions peo = new PromptEntityOptions("\nSelect a surface:");
-                    peo.SetRejectMessage("\nObject must be a surface.");
-                    peo.AddAllowedClass(typeof(Autodesk.Civil.DatabaseServices.TinSurface), true);
-                    PromptEntityResult result = ed.GetEntity(peo);
+                    PromptKeywordOptions pKeyOpts = new PromptKeywordOptions("\nSelect a surface: ");
+                    pKeyOpts.AllowNone = false;
+
+                    ObjectIdCollection SurfaceIds = civil_doc.GetSurfaceIds();
+                    foreach (ObjectId surfaceId in SurfaceIds)
+                    {
+                        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForRead) as TinSurface;
+                        string surf = oSurface.Name;
+                        string surf_ = String.Concat(surf.Where(c => !Char.IsWhiteSpace(c)));
+                        string surf__ = surf_.Replace("_", string.Empty).Replace("-",string.Empty);
+                        pKeyOpts.Keywords.Add(surf__);
+
+                    }
+
+                    PromptResult result = ed.GetKeywords(pKeyOpts);
                     if (result.Status != PromptStatus.OK) return;
-                    ObjectId surfaceid = result.ObjectId;
-                    
-                    TinSurface surface = tr.GetObject(surfaceid, OpenMode.ForRead) as TinSurface;
 
-                    
-                    //change the style and rebuild
-                    ObjectId styleId_triang;
-                    ObjectId styleId_lim2D;
-                    var style_ = surface.StyleId;
-
-                    styleId_triang = civil_doc.Styles.SurfaceStyles["TRIÂNGULOS E PONTOS"];
-                    styleId_lim2D = civil_doc.Styles.SurfaceStyles["Limite da Triangulação (2D)"];
-                    
-                    if (style_ == styleId_triang)
+                    foreach (ObjectId surfaceId in SurfaceIds)
                     {
-                        surface.StyleId = styleId_lim2D;
-                    }
-                    else
-                    {
-                        surface.StyleId = styleId_triang;
-                    }
+                        TinSurface oSurface = surfaceId.GetObject(OpenMode.ForRead) as TinSurface;
+                        string surf = oSurface.Name;
+                        string surf_ = String.Concat(surf.Where(c => !Char.IsWhiteSpace(c)));
+                        string surf__ = surf_.Replace("_", string.Empty).Replace("-", string.Empty);
+                        if (result.StringResult == surf__)
+                        {
+                            TinSurface surface = tr.GetObject(surfaceId, OpenMode.ForRead) as TinSurface;
+                            //change the style and rebuild
+                            ObjectId styleId_triang;
+                            ObjectId styleId_lim2D;
+                            ObjectId styleId_inv;
 
+                            var style_ = surface.StyleId;
+
+                            styleId_triang = civil_doc.Styles.SurfaceStyles["TRIÂNGULOS E PONTOS"];
+                            styleId_lim2D = civil_doc.Styles.SurfaceStyles["Limite da Triangulação (2D)"];
+                            styleId_inv = civil_doc.Styles.SurfaceStyles["_DESLIGADO"];
+
+                            if (style_ == styleId_triang)
+                            {
+                                surface.StyleId = styleId_lim2D;
+                            }
+                            else if(style_ == styleId_lim2D)
+                            {
+                                surface.StyleId = styleId_inv;
+                            }
+                            else if (style_ == styleId_inv)
+                            {
+                                surface.StyleId = styleId_triang;
+                            }
+                            else
+                            {
+                                surface.StyleId = styleId_triang;
+                            }
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
                     tr.Commit();
                     ed.Regen();
 
