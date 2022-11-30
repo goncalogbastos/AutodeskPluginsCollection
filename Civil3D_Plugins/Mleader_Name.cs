@@ -5,9 +5,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Geometry;
 
-// Credits: https://www.keanw.com/2010/01/creating-an-autocad-layer-using-net.html 
-
-namespace AutoCAD_Plugins
+namespace Civil3D_Plugins
 {
     public class Mleader_Name
     {
