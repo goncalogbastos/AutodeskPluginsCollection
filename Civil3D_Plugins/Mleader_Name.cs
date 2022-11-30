@@ -1,9 +1,6 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.ApplicationServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Colors;
-using Autodesk.AutoCAD.Geometry;
 
 namespace Civil3D_Plugins
 {
@@ -11,13 +8,11 @@ namespace Civil3D_Plugins
     {
         public void Create()
         {
-
             // Global Variables
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = doc.Database;
             var ed = doc.Editor;
             var Tx = db.TransactionManager.StartTransaction();
-
 
             using (Tx)
             {
@@ -38,8 +33,7 @@ namespace Civil3D_Plugins
                 string strObjId = res.ObjectId.ToString();
                 strObjId = strObjId.Replace("(", "");
                 strObjId = strObjId.Replace(")", "");
-                string field = @"%<\AcObjProp Object(%<\_ObjId "
-                    + strObjId + @">%).Name>%";
+                string field = @"%<\AcObjProp Object(%<\_ObjId " + strObjId + @">%).Name>%";
 
                 // Prompt the user for the insertation point and convert it to 3D point
                 PromptPointOptions pPtOpts = new PromptPointOptions("");
@@ -52,7 +46,6 @@ namespace Civil3D_Plugins
                 pPtOpts.Message = "\nEnter the landing point: ";
                 PromptPointResult pPtRes_ = ed.GetPoint(pPtOpts_);
                 var landingPt = pPtRes_.Value;
-
 
                 // Create new mleader
                 MLeader leader = new MLeader();
@@ -69,9 +62,8 @@ namespace Civil3D_Plugins
                 mText.SetContentsRtf(field);
                 mText.Location = landingPt;
 
-                // insert mtext in leader
+                // Insert mtext in leader
                 leader.MText = mText;
-
                 leader.AddLeaderLine(insPt);
                 model.AppendEntity(leader);
                 Tx.AddNewlyCreatedDBObject(leader, true);
