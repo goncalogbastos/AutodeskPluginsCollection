@@ -117,5 +117,13 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
+        // Annotate mleader with field name
+        [CommandMethod("ann")]
+        public void mleader_name()
+        {
+            var creator = new Mleader_Name();
+            creator.Create();
+        }
+
     }
 }

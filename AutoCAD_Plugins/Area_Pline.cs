@@ -8,13 +8,18 @@ namespace AutoCAD_Plugins
     {
         public void Create()
         {
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            var db = doc.Database;
+            var ed = doc.Editor;
             var running = true;
+
+            // Prompt the user for the text height
+            PromptDoubleOptions pdo = new PromptDoubleOptions("\nEnter text height: ");
+            pdo.DefaultValue = 25;
+            PromptDoubleResult th_ = ed.GetDouble(pdo);
+
             while (running)
             {
-                var doc = Application.DocumentManager.MdiActiveDocument;
-                var db = doc.Database;
-                var ed = doc.Editor;
-
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {
                     try
@@ -24,6 +29,7 @@ namespace AutoCAD_Plugins
                         opt.SetRejectMessage("\nObject must be a polyline.");
                         opt.AddAllowedClass(typeof(Polyline), true);
                         opt.AddAllowedClass(typeof(Polyline), true);
+                        
                         PromptEntityResult res = ed.GetEntity(opt);
 
                         if (res.Status != PromptStatus.OK)
@@ -31,12 +37,6 @@ namespace AutoCAD_Plugins
                             running = false;
                             return;
                         }
-
-                        // Prompt the user for the alignment name
-                        //PromptStringOptions pso = new PromptStringOptions("\nEnter name: ");
-                        //pso.AllowSpaces = true;
-                        //PromptResult pr = ed.GetString(pso);
-                        //string alignmentName = pr.StringResult;
 
                         // Create a field with area of the polyline -> <NAME> + <FIELD> + <m2>
                         string strObjId = res.ObjectId.ToString();
@@ -70,7 +70,7 @@ namespace AutoCAD_Plugins
                         label.SetDatabaseDefaults();
                         label.Location = insPt;
                         label.Attachment = AttachmentPoint.MiddleCenter;
-                        label.TextHeight = 25;
+                        label.TextHeight = th_.Value;
                         label.Contents = field.ToString();
                         block_table_record.AppendEntity(label);
                         tr.AddNewlyCreatedDBObject(label, true);
