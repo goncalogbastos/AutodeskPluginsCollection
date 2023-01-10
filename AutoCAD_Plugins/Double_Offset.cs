@@ -38,7 +38,7 @@ namespace AutoCAD_Plugins
                         
                         // Get the polyline selected
                         Polyline pl = tr.GetObject(res.ObjectId, OpenMode.ForRead) as Polyline;
-                        ed.WriteMessage($"Teste1: {pl.ObjectId}");
+                        ed.WriteMessage(pl.ObjectId.ToString());
 
                         // Open the Block table for read
                         BlockTable block_table;
@@ -66,14 +66,17 @@ namespace AutoCAD_Plugins
                             block_table_record.AppendEntity(ent);
                             tr.AddNewlyCreatedDBObject(ent, true);
                         }
-                        tr.Commit();
-                        ed.WriteMessage($"Teste2: {pl.ObjectId}");
+                        
+                        
                     }
+                   
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception ex)
                 {
                     ed.WriteMessage("\nException message :" + ex.Message);
                 }
+
+                tr.Commit();
             }
         }
     }

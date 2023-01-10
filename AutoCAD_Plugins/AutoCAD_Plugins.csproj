@@ -57,22 +57,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Area_Pline.cs" />
-    <Compile Include="Area_Pline_Field.cs" />
-    <Compile Include="AutoCAD_Plugins.cs" />
-    <Compile Include="Aux_Layer.cs" />
+    <Compile Include="07_PolylineArea.cs" />
+    <Compile Include="00_AutoCAD_Plugins.cs" />
+    <Compile Include="01_AuxiliarLayer.cs" />
     <Compile Include="Current_View_Front.cs" />
     <Compile Include="Current_View_Top.cs" />
     <Compile Include="Double_Offset.cs" />
-    <Compile Include="Get_Slope.cs" />
-    <Compile Include="Insert_Block.cs" />
+    <Compile Include="06_GetSlope.cs" />
+    <Compile Include="04_InsertBlock.cs" />
     <Compile Include="Len_PL.cs" />
-    <Compile Include="Mleader_Name.cs" />
     <Compile Include="Multiple_Chamfer.cs" />
-    <Compile Include="New_Block.cs" />
-    <Compile Include="New_Layer.cs" />
+    <Compile Include="03_NewBlock.cs" />
+    <Compile Include="02_NewLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Select_Objects_Inside_Polyline.cs" />
-    <Compile Include="Slope.cs" />
+    <Compile Include="05_Slope.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

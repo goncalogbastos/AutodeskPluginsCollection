@@ -4,7 +4,7 @@ namespace AutoCAD_Plugins
 {
     public class AutoCAD_Plugins
     {
-        // Creates new auxiliar layer named "@AUX"
+        // 01_AuxiliarLayer
         [CommandMethod("aux")]
         public void aux_layer()
         {
@@ -12,7 +12,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // Creates a new layer
+        // 02_New_Layer
         [CommandMethod("nl")]
         public void new_layer()
         {
@@ -20,7 +20,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // Creates a new block *************************NOT FINISHED***********************
+        // 03_New_Block *************************NOT FINISHED***********************
         [CommandMethod("nb")]
         public void new_block()
         {
@@ -28,7 +28,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // Inserts a block *************************NOT FINISHED***********************
+        // 04_Insert_Block *************************NOT FINISHED***********************
         [CommandMethod("ib")]
         public void insert_block()
         {
@@ -36,7 +36,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // Inserts a polyline with a certain slope        
+        // 05_Slope     
         [CommandMethod("sl")]
         public void slope()
         {
@@ -44,7 +44,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // Gets the slope of a polyline        
+        // 06_GetSlope      
         [CommandMethod("gsl")]
         public void get_slop()
         {
@@ -52,7 +52,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        //Area of closed polyline km2     
+        // 07_PolylineArea   
         [CommandMethod("paf")]
         public void area_pline_field()
         {

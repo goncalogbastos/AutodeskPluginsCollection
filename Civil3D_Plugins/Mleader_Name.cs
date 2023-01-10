@@ -43,7 +43,7 @@ namespace Civil3D_Plugins
 
                 // Prompt the user for the insertation point and convert it to 3D point
                 PromptPointOptions pPtOpts_ = new PromptPointOptions("");
-                pPtOpts.Message = "\nEnter the landing point: ";
+                pPtOpts_.Message = "\nEnter the landing point: ";
                 PromptPointResult pPtRes_ = ed.GetPoint(pPtOpts_);
                 var landingPt = pPtRes_.Value;
 
@@ -51,14 +51,14 @@ namespace Civil3D_Plugins
                 MLeader leader = new MLeader();
                 leader.SetDatabaseDefaults();
                 leader.ContentType = ContentType.MTextContent;
-                leader.ArrowSize = 10;                
+                leader.ArrowSize = 15;                
 
                 // Create new Mtext
                 MText mText = new MText();
                 mText.SetDatabaseDefaults();
                 mText.Width = 10;
                 mText.Height = 5;
-                mText.TextHeight = 15;
+                mText.TextHeight = 10;
                 mText.SetContentsRtf(field);
                 mText.Location = landingPt;
 
