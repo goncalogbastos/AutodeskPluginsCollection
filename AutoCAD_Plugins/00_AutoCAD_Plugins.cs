@@ -6,39 +6,39 @@ namespace AutoCAD_Plugins
     {
         // 01_AuxiliarLayer
         [CommandMethod("aux")]
-        public void aux_layer()
+        public void AuxiliarLayer()
         {
-            var creator = new Aux_Layer();
+            var creator = new AuxiliarLayer();
             creator.Create();
         }
 
-        // 02_New_Layer
+        // 02_NewLayer
         [CommandMethod("nl")]
-        public void new_layer()
+        public void NewLayer()
         {
-            var creator = new New_Layer();
+            var creator = new NewLayer();
             creator.Create();
         }
 
-        // 03_New_Block *************************NOT FINISHED***********************
+        // 03_NewBlock *************************NOT FINISHED***********************
         [CommandMethod("nb")]
-        public void new_block()
+        public void NewBlock()
         {
-            var creator = new New_Block();
+            var creator = new NewBlock();
             creator.Create();
         }
 
-        // 04_Insert_Block *************************NOT FINISHED***********************
+        // 04_InsertBlock *************************NOT FINISHED***********************
         [CommandMethod("ib")]
-        public void insert_block()
+        public void InsertBlock()
         {
-            var creator = new Insert_Block();
+            var creator = new InsertBlock();
             creator.Create();
         }
 
         // 05_Slope     
         [CommandMethod("sl")]
-        public void slope()
+        public void Slope()
         {
             var creator = new Slope();
             creator.Create();
@@ -46,74 +46,74 @@ namespace AutoCAD_Plugins
 
         // 06_GetSlope      
         [CommandMethod("gsl")]
-        public void get_slop()
+        public void GetSlope()
         {
-            var creator = new Get_Slope();
+            var creator = new GetSlope();
             creator.Create();
         }
 
-        // 07_PolylineArea   
+        // 07_PolylineAreaKm2   
         [CommandMethod("paf")]
-        public void area_pline_field()
+        public void PolylineAreaKm2()
         {
-            var creator = new Area_Pline_Field();
+            var creator = new PolylineAreaKm2();
             creator.Create();
         }
 
-        //Area of closed polyline m2    
+        // 08_PolylineAreaM2
         [CommandMethod("aaa")]
-        public void area_pline()
+        public void PolylineAreaM2()
         {
-            var creator = new Area_Pline();
+            var creator = new PolylineAreaM2();
             creator.Create();
         }
 
-        //Lenght of polyline m
+        // 09_PolylineLength
         [CommandMethod("comp")]
-        public void len_pl()
+        public void PolylineLength()
         {
-            var creator = new Len_PL();
+            var creator = new PolylineLength();
             creator.Create();
         }
 
 
-        //Double offset of polyline       
+        // 10_DoubleOffset     
         [CommandMethod("do")]
-        public void double_offset()
+        public void DoubleOffset()
         {
-            var creator = new Double_Offset();
+            var creator = new DoubleOffset();
             creator.Create();
         }
 
-        // Select all objects inside an object
+        // 11_SelectObjectsInsidePolyline
         [CommandMethod("oip")]
-        public void select_objects_inside_polyline()
+        public void SelectObjectsInsidePolyline()
         {
-            var creator = new Select_Objects_Inside_Polyline();
+            var creator = new SelectObjectsInsidePolyline();
             creator.Create();
         }
 
-        // Change current view to top view
+        // 12_CurrentViewTop
         [CommandMethod("vt")]
-        public void current_view_top()
+        public void CurrentViewTop()
         {
-            var creator = new Current_View_Top();
+            var creator = new CurrentViewTop();
             creator.Create();
         }
 
-        // Change current view to front view
+        // 13_CurrentViewFront
         [CommandMethod("vf")]
-        public void current_view_front()
+        public void CurrentViewFront()
         {
-            var creator = new Current_View_Front();
+            var creator = new CurrentViewFront();
             creator.Create();
         }
 
-        // Multiple chamfer with layer control *************************NOT FINISHED***********************
+        // 14_MultipleChamfer *************************NOT FINISHED***********************
         [CommandMethod("mc")]
-        public void multiple_chamfer()
+        public void MultipleChamfer()
         {
-            var creator = new Multiple_Chamfer();
+            var creator = new MultipleChamfer();
             creator.Create();
         }
 

@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace AutoCAD_Plugins
 {
-    public class Get_Slope
+    public class GetSlope
     {
         public void Create()
         {

@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace AutoCAD_Plugins
 {
-    public class Current_View_Top
+    public class CurrentViewTop
     {
         public void Create()
         {

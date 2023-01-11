@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace AutoCAD_Plugins
 {
-    public class Len_PL
+    public class PolylineLength
     {
         public void Create()
         {

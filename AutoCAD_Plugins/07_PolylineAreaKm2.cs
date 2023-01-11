@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace AutoCAD_Plugins
 {
-    public class Area_Pline_Field
+    public class PolylineAreaKm2
     {
         public void Create()
         {

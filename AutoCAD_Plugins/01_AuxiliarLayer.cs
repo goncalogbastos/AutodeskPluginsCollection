@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace AutoCAD_Plugins
 {
-    public class Aux_Layer
+    public class AuxiliarLayer
     {
         public void Create()
         {

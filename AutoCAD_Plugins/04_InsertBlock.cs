@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.Colors;
 
 namespace AutoCAD_Plugins
 {
-    public class Insert_Block
+    public class InsertBlock
     {
         public void Create()
         {

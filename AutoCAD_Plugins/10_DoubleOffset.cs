@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace AutoCAD_Plugins
 {
-    public class Double_Offset
+    public class DoubleOffset
     {
         public void Create()
         {
