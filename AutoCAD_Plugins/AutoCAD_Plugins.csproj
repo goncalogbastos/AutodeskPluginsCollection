@@ -69,6 +69,7 @@
     <Compile Include="14_MultipleChamfer.cs" />
     <Compile Include="03_NewBlock.cs" />
     <Compile Include="02_NewLayer.cs" />
+    <Compile Include="15_PolylineLenghtAndData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="11_SelectObjectsInsidePolyline.cs" />
     <Compile Include="05_Slope.cs" />
