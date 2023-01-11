@@ -117,15 +117,12 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // PolylineLenghtAndData&Data
+        // PolylineLenghtAndDataAndData
         [CommandMethod("pwf")]
         public void PolylineLenghtAndData()
         {
             var creator = new PolylineLenghtAndData();
             creator.Create();
         }
-
-
-
     }
 }

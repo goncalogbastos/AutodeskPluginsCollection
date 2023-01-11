@@ -32,6 +32,16 @@ namespace AutoCAD_Plugins
                             return;
                         }
 
+                        // Create a field with area of the polyline -> <NAME> + <FIELD> + <m>
+                        string strObjId = resLA.ObjectId.ToString();
+                        strObjId = strObjId.Replace("(", "");
+                        strObjId = strObjId.Replace(")", "");
+                        string LALength = @"%<\AcObjProp Object(%<\_ObjId "
+                            + strObjId + @">%).Length \f "
+                            + "\"%lu6\""
+                            + @">%"
+                            + " m";
+
                         // Ask the user to select a Mtext 
                         PromptEntityOptions optM = new PromptEntityOptions("\nSelect a Mtext: ");
                         optM.SetRejectMessage("\nObject must be a Mtext.");
@@ -86,7 +96,7 @@ namespace AutoCAD_Plugins
                         label.Location = insPt;
                         label.Attachment = AttachmentPoint.MiddleCenter;
                         label.TextHeight = 25;
-                        label.Contents = name + "\n" + "PMA:" + PMA + "\n" + "PMB:" + PMB;
+                        label.Contents = name + "\n" + "PMA: " + PMA + "\n" + "PMB: " + PMB + "\n" + "L: " + LALength;
                         block_table_record.AppendEntity(label);
                         tr.AddNewlyCreatedDBObject(label, true);
                         
