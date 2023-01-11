@@ -9,7 +9,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace Civil3D_Plugins
 {
-    public class Corridor_Targets
+    public class CorridorTargets
     {
         public void Create()
         {

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Civil3D_Plugins
 {
-    public class Surface_Style
+    public class SurfaceStyle
     {
         public void Create()
         {

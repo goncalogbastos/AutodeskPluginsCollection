@@ -56,17 +56,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Civil3D_Plugins.cs" />
-    <Compile Include="Alignment_from_Pline.cs" />
-    <Compile Include="Corridor_Frequency.cs" />
-    <Compile Include="Corridor_Targets.cs" />
-    <Compile Include="Event_Viewer.cs" />
-    <Compile Include="Mleader_Name.cs" />
-    <Compile Include="Offset_Alignment.cs" />
-    <Compile Include="Profile_View.cs" />
+    <Compile Include="00_Civil3D_Plugins.cs" />
+    <Compile Include="01_AlignmentFromPolyline.cs" />
+    <Compile Include="04_CorridorFrequency.cs" />
+    <Compile Include="05_CorridorTargets.cs" />
+    <Compile Include="06_EventViewer.cs" />
+    <Compile Include="09_MleaderObjectName.cs" />
+    <Compile Include="08_OffsetAlignment.cs" />
+    <Compile Include="03_ProfileView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Surface_Profile.cs" />
-    <Compile Include="Surface_Style.cs" />
+    <Compile Include="02_SurfaceProfile.cs" />
+    <Compile Include="07_SurfaceStyle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

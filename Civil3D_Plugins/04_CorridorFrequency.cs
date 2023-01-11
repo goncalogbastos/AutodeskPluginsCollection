@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace Civil3D_Plugins
 {
-    public class Corridor_Frequency
+    public class CorridorFrequency
     {
         public void Create()
         {

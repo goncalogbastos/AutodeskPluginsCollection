@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace Civil3D_Plugins
 {
-    public class Mleader_Name
+    public class MleaderObjectName
     {
         public void Create()
         {

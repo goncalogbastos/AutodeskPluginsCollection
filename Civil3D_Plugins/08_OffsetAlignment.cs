@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace Civil3D_Plugins
 {
-    public class Offset_Alignment
+    public class OffsetAlignment
     {
         public void Create()
         {
