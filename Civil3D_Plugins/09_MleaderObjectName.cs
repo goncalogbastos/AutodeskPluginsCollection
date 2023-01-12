@@ -70,6 +70,7 @@ namespace Civil3D_Plugins
 
                 // Commit the transaction
                 Tx.Commit();
+                ed.Regen();
             }
 
         }

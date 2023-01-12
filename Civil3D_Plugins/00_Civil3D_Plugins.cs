@@ -5,7 +5,7 @@ namespace Civil3D_Plugins
     public class Civil3D_Plugins
     {
         // 01_AlignmentFromPolyline
-        [CommandMethod("ca")]
+        [CommandMethod("ap")]
         public void AlignmentFromPolyline()
         {
             var creator = new AlignmentFromPolyline();

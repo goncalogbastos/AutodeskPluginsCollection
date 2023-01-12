@@ -38,9 +38,8 @@ namespace AutoCAD_Plugins
                         strObjId = strObjId.Replace(")", "");
                         string LALength = @"%<\AcObjProp Object(%<\_ObjId "
                             + strObjId + @">%).Length \f "
-                            + "\"%lu6\""
-                            + @">%"
-                            + " m";
+                            + @"%lu2%pr0"
+                            + @">%";                           
 
                         // Ask the user to select a Mtext 
                         PromptEntityOptions optM = new PromptEntityOptions("\nSelect a Mtext: ");
@@ -96,7 +95,7 @@ namespace AutoCAD_Plugins
                         label.Location = insPt;
                         label.Attachment = AttachmentPoint.MiddleCenter;
                         label.TextHeight = 25;
-                        label.Contents = name + "\n" + "PMA: " + PMA + "\n" + "PMB: " + PMB + "\n" + "L: " + LALength;
+                        label.Contents = name + "\n" + PMA + "\n" + PMB + "\n" + LALength;
                         block_table_record.AppendEntity(label);
                         tr.AddNewlyCreatedDBObject(label, true);
                         

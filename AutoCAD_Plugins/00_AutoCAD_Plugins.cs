@@ -61,7 +61,7 @@ namespace AutoCAD_Plugins
         }
 
         // 08_PolylineAreaM2
-        [CommandMethod("aaa")]
+        [CommandMethod("pam")]
         public void PolylineAreaM2()
         {
             var creator = new PolylineAreaM2();
@@ -117,7 +117,7 @@ namespace AutoCAD_Plugins
             creator.Create();
         }
 
-        // PolylineLenghtAndDataAndData
+        // 15_PolylineLenghtAndData
         [CommandMethod("pwf")]
         public void PolylineLenghtAndData()
         {
