@@ -4,7 +4,7 @@ using Autodesk.Civil.ApplicationServices;
 
 namespace Civil3D_Plugins
 {
-    public class Event_Viewer
+    public class EventViewer
     {
         public void Create()
         {

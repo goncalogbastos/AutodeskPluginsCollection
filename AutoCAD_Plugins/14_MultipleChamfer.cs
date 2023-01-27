@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace AutoCAD_Plugins
 {
-    public class Multiple_Chamfer
+    public class MultipleChamfer
     {
         public void Create()
         {

@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace AutoCAD_Plugins
 {
-    public class Area_Pline_Field
+    public class PolylineLength
     {
         public void Create()
         {
@@ -38,17 +38,17 @@ namespace AutoCAD_Plugins
                         PromptResult pr = ed.GetString(pso);
                         string alignmentName = pr.StringResult;
 
-                        // Create a field with area of the polyline -> <NAME> + <FIELD> + <km2>
+                        // Create a field with area of the polyline -> <NAME> + <FIELD> + <m>
                         string strObjId = res.ObjectId.ToString();
                         strObjId = strObjId.Replace("(", "");
                         strObjId = strObjId.Replace(")", "");
-                        string field = alignmentName + "\n" 
-                            + @"%<\AcObjProp.16.2 Object(%<\_ObjId " 
-                            + strObjId + @">%).Area \f " 
-                            + "\"%lu2%ct8[1.000000000000000E-006]\"" 
-                            + @">%" 
-                            + " km" 
-                            + @"\U+00B2";
+                        string field = alignmentName + "\n"
+                            + @"%<\AcObjProp Object(%<\_ObjId "
+                            + strObjId + @">%).Length \f "
+                            + "\"%lu6\""
+                            + @">%"
+                            + " m";
+                            //+ @"\U+00B2";
 
                         // Prompt the user for the insertation point
                         PromptPointOptions pPtOpts = new PromptPointOptions("");

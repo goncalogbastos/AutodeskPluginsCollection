@@ -5,7 +5,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace AutoCAD_Plugins
 {
-    public class Select_Objects_Inside_Polyline
+    public class SelectObjectsInsidePolyline
     {
         public void Create()
         {

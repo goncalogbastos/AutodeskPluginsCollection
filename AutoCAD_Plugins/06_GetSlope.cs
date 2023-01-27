@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace AutoCAD_Plugins
 {
-    public class Get_Slope
+    public class GetSlope
     {
         public void Create()
         {
@@ -24,15 +24,24 @@ namespace AutoCAD_Plugins
                     {
                         // Prompt the user for normal or superelevated slope
                         PromptStringOptions pso = new PromptStringOptions("\nEnter option or [N / SE]: ");
-                        pso.AppendKeywordsToMessage = true;
+                        pso.AppendKeywordsToMessage = true;                        
                         pso.DefaultValue = "N";
                         PromptResult pres = ed.GetString(pso);
+
+                        var kw = pres.StringResult.ToUpper();
 
                         if (pres.Status != PromptStatus.OK)
                         {
                             running = false;
                             return;
                         }
+
+                        if(kw != "N" && kw != "SE")
+                        {
+                            running = false;
+                            return;
+                        }
+
                         // Ask the user to select a polyline 
                         PromptEntityOptions opt = new PromptEntityOptions("\nSelect a polyline: ");
                         opt.SetRejectMessage("\nObject must be a polyline.");
@@ -48,7 +57,7 @@ namespace AutoCAD_Plugins
                         double slope;
                         double delta_x;
                         double delta_y;
-                        var kw = pres.StringResult;
+                        
                         if (kw == "N")
                         {
                             // Calculate slope

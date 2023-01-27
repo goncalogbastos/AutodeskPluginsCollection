@@ -9,7 +9,7 @@ using Autodesk.AutoCAD.Colors;
 
 namespace AutoCAD_Plugins
 {
-    public class New_Block
+    public class NewBlock
 
     {
         public void Create()

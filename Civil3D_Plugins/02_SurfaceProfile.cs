@@ -10,7 +10,7 @@ using System;
 
 namespace Civil3D_Plugins
 {
-    public class Surface_Profile
+    public class SurfaceProfile
     {
         public void Create()
         {

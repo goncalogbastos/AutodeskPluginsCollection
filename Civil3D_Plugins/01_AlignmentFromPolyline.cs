@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace Civil3D_Plugins
 {
-    public class Alignment_from_Pline
+    public class AlignmentFromPolyline
     {
         public void Create()
         {

@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.Colors;
 
 namespace AutoCAD_Plugins
 {
-    public class New_Layer
+    public class NewLayer
     {
         //Color of first layer created. If any additional layers are created, than the new color will be _colorIndex + 1
         static short _colorIndex = 1;
