@@ -1,0 +1,2 @@
+(command "netload" "D:\\COBA\\DEVELOPMENT\\07-PLUGINS\\Plugins_Collection\\AutoCAD_Plugins\\bin\\Debug\\AutoCAD_Plugins.dll")
+(command "netload" "D:\\COBA\\DEVELOPMENT\\07-PLUGINS\\Plugins_Collection\\Civil3D_Plugins\\bin\\Debug\\Civil3D_Plugins.dll")

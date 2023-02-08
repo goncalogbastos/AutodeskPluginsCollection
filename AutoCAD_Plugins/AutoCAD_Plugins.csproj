@@ -70,6 +70,8 @@
     <Compile Include="03_NewBlock.cs" />
     <Compile Include="02_NewLayer.cs" />
     <Compile Include="15_PolylineLenghtAndData.cs" />
+    <Compile Include="16_CrossSuperelevationByPlanData.cs" />
+    <Compile Include="17_EndPointElevationByCrossSuperelevation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="11_SelectObjectsInsidePolyline.cs" />
     <Compile Include="05_Slope.cs" />

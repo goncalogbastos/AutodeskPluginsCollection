@@ -1,2 +1,0 @@
-(command "netload" "C:\\Users\\Goncalo\\Documents\\#TRABALHO\\PLUGINS\\AutoCAD_Plugins\\bin\\Debug\\AutoCAD_Plugins.dll")
-(command "netload" "C:\\Users\\Goncalo\\Documents\\#TRABALHO\\PLUGINS\\Civil3D_Plugins\\bin\\Debug\\Civil3D_Plugins.dll")

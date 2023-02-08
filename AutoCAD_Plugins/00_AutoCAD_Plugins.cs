@@ -124,5 +124,21 @@ namespace AutoCAD_Plugins
             var creator = new PolylineLenghtAndData();
             creator.Create();
         }
+
+        // 16_CrossSuperelevationByPlanData
+        [CommandMethod("cs")]
+        public void CrossSuperelevationByPlanData()
+        {
+            var creator = new CrossSuperelevationByPlanData();
+            creator.Create();
+        }
+
+        // 17_EndPointElevationByCrossSuperelevation
+        [CommandMethod("ce")]
+        public void EndPointElevationByCrossSuperelevation()
+        {
+            var creator = new EndPointElevationByCrossSuperelevation();
+            creator.Create();
+        }
     }
 }
