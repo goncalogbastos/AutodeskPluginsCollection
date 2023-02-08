@@ -55,7 +55,7 @@ namespace AutoCAD_Plugins
 
                     //****************
                     // Review. Try to insert plineID's in sendstringtoexecute
-                    doc.SendStringToExecute($"._chamfer a 25 45 ", true, false, false);
+                    doc.SendStringToExecute($"._chamfer a 25 45 {pl_1} {pl_2}", true, false, false);
 
 
 
