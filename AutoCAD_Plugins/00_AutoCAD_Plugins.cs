@@ -140,5 +140,13 @@ namespace AutoCAD_Plugins
             var creator = new EndPointElevationByCrossSuperelevation();
             creator.Create();
         }
+
+        // 18_PickMPZPoint
+        [CommandMethod("pmp")]
+        public void PickMPZPoint()
+        {
+            var creator = new PickMPZPoint();
+            creator.Create();
+        }
     }
 }

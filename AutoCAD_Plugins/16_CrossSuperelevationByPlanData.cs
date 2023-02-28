@@ -1,9 +1,7 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
 using System;
-using Autodesk.AutoCAD.Runtime;
 
 namespace AutoCAD_Plugins
 {
@@ -15,19 +13,22 @@ namespace AutoCAD_Plugins
             var db = doc.Database;
             var ed = Application.DocumentManager.MdiActiveDocument.Editor;
 
-            using (Transaction tr = db.TransactionManager.StartTransaction())
+            try
             {
-                try
+                // Ask the user to select a polyline 
+                PromptEntityOptions opt = new PromptEntityOptions("\nSelect a polyline: ");
+                opt.SetRejectMessage("\nObject must be a polyline.");
+                opt.AddAllowedClass(typeof(Polyline), true);
+                PromptEntityResult res = ed.GetEntity(opt);
+
+                if (res.Status != PromptStatus.OK)
                 {
-                    // Ask the user to select a polyline 
-                    PromptEntityOptions opt = new PromptEntityOptions("\nSelect a polyline or line: ");
-                    opt.SetRejectMessage("\nObject must be a polyline  or line.");
-                    opt.AddAllowedClass(typeof(Polyline), true);
-                    opt.AddAllowedClass(typeof(Line), true);
-                    PromptEntityResult res = ed.GetEntity(opt);
+                    return;
+                }
 
-
-                    Polyline pl = tr.GetObject(res.ObjectId, OpenMode.ForRead) as Polyline;                        
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    Polyline pl = tr.GetObject(res.ObjectId, OpenMode.ForRead) as Polyline;
                     Double pl_length = pl.Length;
 
                     PromptDoubleOptions pdo_start = new PromptDoubleOptions("\nInitial elevation: ");
@@ -38,8 +39,7 @@ namespace AutoCAD_Plugins
 
                     Double S = start.Value;
                     Double E = end.Value;
-                    Double slope = Math.Round(Math.Abs((S - E) / pl_length),2);                       
-
+                    Double slope = Math.Abs((S - E) / pl_length);
                     // Open the Block table for read
                     BlockTable block_table;
                     block_table = tr.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
@@ -52,21 +52,23 @@ namespace AutoCAD_Plugins
                     MText inc_label = new MText();
                     inc_label.SetDatabaseDefaults();
                     inc_label.Location = pl.StartPoint;
+                    inc_label.TextHeight = 0.2;
                     inc_label.Height = 5;
-                    inc_label.Contents = $"{Math.Round(slope, 2)}%";
+                    inc_label.Contents = $"{100*Math.Round(slope,4)}%";
                     block_table_record.AppendEntity(inc_label);
                     tr.AddNewlyCreatedDBObject(inc_label, true);
 
                     // Write slope in editor
-                    ed.WriteMessage($"\nSlope: {Math.Round(slope, 2)}%");
+                    ed.WriteMessage($"\nSlope: {slope}%");
                     tr.Commit();
+                }
+            }
 
-                }
-                catch (Autodesk.AutoCAD.Runtime.Exception ex)
-                {
-                    ed.WriteMessage("\nException message :" + ex.Message);
-                }
+            catch (Autodesk.AutoCAD.Runtime.Exception ex)
+            {
+                ed.WriteMessage("\nException message :" + ex.Message);
             }
         }
     }
 }
+
