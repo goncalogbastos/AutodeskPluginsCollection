@@ -1,4 +1,5 @@
 ﻿using Autodesk.AutoCAD.Runtime;
+using Autodesk.Civil.DatabaseServices;
 
 namespace Civil3D_Plugins
 {
@@ -82,6 +83,15 @@ namespace Civil3D_Plugins
         public void Surfaces()
         {
             var creator = new Surfaces();
+            creator.Create();
+        }
+
+        // Not finished
+        // 11_SampleLines
+        [CommandMethod("spl")]
+        public void SampleLines()
+        {
+            var creator = new SampleLines();
             creator.Create();
         }
 

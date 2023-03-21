@@ -29,8 +29,13 @@ namespace Civil3D_Plugins
 
                     Alignment myAlignment = tr.GetObject(alignmentId, OpenMode.ForWrite) as Alignment;
 
+                    
+
                     //var start_ = myAlignment.StartingStation;
                     //var final_ = myAlignment.EndingStation;
+
+                    PromptDoubleOptions pdoOffset = new PromptDoubleOptions("\nEnter offset: ");
+                    PromptDoubleResult offsetValue = ed.GetDouble(pdoOffset);
 
                     PromptDoubleOptions pdo__ = new PromptDoubleOptions("\nLeft [0] or Right [1]: ");
                     PromptDoubleResult lr = ed.GetDouble(pdo__);
@@ -44,11 +49,11 @@ namespace Civil3D_Plugins
 
                     if (lr.Value == 0)
                     {
-                        ObjectId alignObjId = Alignment.CreateOffsetAlignment("<[Parent Alignment Name(CP)]>-<[Side]>-<[Offset Distance]>", alignmentId, -10, myAlignment.StyleId, os_.Value, of_.Value);
+                        ObjectId alignObjId = Alignment.CreateOffsetAlignment("<[Parent Alignment Name(CP)]>-<[Side]>-<[Offset Distance]>", alignmentId, -offsetValue.Value, myAlignment.StyleId, os_.Value, of_.Value);
                     }
                     else
                     {
-                        ObjectId alignObjId = Alignment.CreateOffsetAlignment("<[Parent Alignment Name(CP)]>-<[Side]>-<[Offset Distance]>", alignmentId, 10, myAlignment.StyleId, os_.Value, of_.Value);
+                        ObjectId alignObjId = Alignment.CreateOffsetAlignment("<[Parent Alignment Name(CP)]>-<[Side]>-<[Offset Distance]>", alignmentId, offsetValue.Value, myAlignment.StyleId, os_.Value, of_.Value);
                     }
                     
 
