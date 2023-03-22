@@ -15,28 +15,37 @@ namespace Civil3D_Plugins
         {
             var civil_doc = CivilApplication.ActiveDocument;
             var ed = Application.DocumentManager.MdiActiveDocument.Editor;
-            var db = Application.DocumentManager.MdiActiveDocument.Database;            
-            
+            var db = Application.DocumentManager.MdiActiveDocument.Database;
+
             try
             {
+                // ############## INPUTS ############## 
                 PromptDoubleOptions pdoOffset = new PromptDoubleOptions("\nEnter offset: ");
+                pdoOffset.DefaultValue = 10;
                 PromptDoubleResult offset = ed.GetDouble(pdoOffset);
+                if (offset.Status != PromptStatus.OK) return;
 
                 PromptDoubleOptions pdoFrequency = new PromptDoubleOptions("\nEnter frequency: ");
+                pdoFrequency.DefaultValue = 25;
                 PromptDoubleResult frequency = ed.GetDouble(pdoFrequency);
+                
+                if(frequency.Status != PromptStatus.OK) return;
 
                 PromptEntityOptions opt = new PromptEntityOptions("\nSelect an alignment: ");
-                opt.SetRejectMessage("\nObject must be an alignment.\n");
+                opt.SetRejectMessage("\nObject must be an alignment.");
                 opt.AddAllowedClass(typeof(Alignment), true);
                 PromptEntityResult res = ed.GetEntity(opt);
                 if (res.Status != PromptStatus.OK) return;
+
+
+                // ############## SAMPLE LINE GROUP & SAMPLE LINES ############## 
 
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {
                     ObjectId alignmentId = res.ObjectId;
                     Alignment myAlignment = tr.GetObject(alignmentId, OpenMode.ForWrite) as Alignment;
 
-                    ObjectId slgId = SampleLineGroup.Create($"PT{myAlignment.GetSampleLineGroupIds().Count + 1}_{frequency.Value}-{frequency.Value}m", alignmentId);
+                    ObjectId slgId = SampleLineGroup.Create($"PT{myAlignment.GetSampleLineGroupIds().Count + 1}_{frequency.Value}-{frequency.Value}m_{myAlignment.Name}", alignmentId);
                     SampleLineGroup sampleLineGroup = tr.GetObject(slgId, OpenMode.ForWrite) as SampleLineGroup;
                     
                     double startStation = myAlignment.StartingStation;
@@ -52,32 +61,13 @@ namespace Civil3D_Plugins
                     int count = 0;
                     foreach (double station in stations)
                     {
-                        Point3d pt1 = myAlignment.GetPointAtDist(station);
-                        Point3d pt2 = new Point3d();
-                        try
-                        {
-                            pt2 = myAlignment.GetPointAtDist(station + 0.01);
-                        }
-                        catch
-                        {
-                            pt2 = myAlignment.GetPointAtDist(station - 0.01);
-                        }
-                        Polyline tangent = new Polyline();
-                        tangent.AddVertexAt(0, new Point2d(pt1.X, pt1.Y), 0, 0, 0);
-                        tangent.AddVertexAt(1, new Point2d(pt2.X, pt2.Y), 0, 0, 0);
-
-                        Vector3d vecTangent = tangent.GetFirstDerivative(tangent.GetParameterAtPoint(pt1));
-                        vecTangent = vecTangent.GetNormal() * offset.Value; //Define offset
-                        vecTangent = vecTangent.TransformBy(Matrix3d.Rotation(Math.PI / 2, tangent.Normal, Point3d.Origin));
-                        Line perpendicular = new Line(pt1 - vecTangent, pt1 + vecTangent);
-
-                        Point2d pt3 = new Point2d(perpendicular.StartPoint.X, perpendicular.StartPoint.Y);
-                        Point2d pt4 = new Point2d(perpendicular.EndPoint.X, perpendicular.EndPoint.Y);
+                        SampleLines SL = new SampleLines();
+                        Point2d[] points = SL.SampleLinePoints(myAlignment, station, offset.Value); // Call SampleLinePoints function
 
                         ObjectId slatStationId = SampleLine.Create($"SL_{sampleLineGroup.Name}_{count}", slgId, new Point2dCollection()
                         {
-                            pt3,
-                            pt4
+                            points[0],
+                            points[1]
                         });
 
                         using (Transaction tran = db.TransactionManager.StartTransaction())
@@ -105,10 +95,16 @@ namespace Civil3D_Plugins
                         count ++;
                     }
 
+                    // ############## SECTION VIEWS ############## 
+
                     SectionViewGroupCollection sectionViewGroupColl = sampleLineGroup.SectionViewGroups;
                     PromptPointResult ppr = ed.GetPoint("\nSelect a Location for the SectionViews: ");
                     if (ppr.Status != PromptStatus.OK)
+                    {
+                        tr.Commit();
+                        ed.Regen();
                         return;
+                    }                       
                     sectionViewGroupColl.Add(ppr.Value);
                     
                     foreach (SectionViewGroup svg in sectionViewGroupColl)
@@ -134,6 +130,38 @@ namespace Civil3D_Plugins
                 ed.WriteMessage("\nException message: " + ex.Message);
             }
             
+        }
+
+        private Point2d[] SampleLinePoints(Alignment alignment, Double station, Double offset)
+        {
+            // ############## GET SAMPLE LINES START AND END POINTS  ############## 
+
+            Point3d pt1 = alignment.GetPointAtDist(station);
+            Point3d pt2;
+            try
+            {
+                pt2 = alignment.GetPointAtDist(station + 0.01);
+            }
+            catch
+            {
+                pt2 = alignment.GetPointAtDist(station - 0.01);
+            }
+
+            Polyline tangent = new Polyline();
+            tangent.AddVertexAt(0, new Point2d(pt1.X, pt1.Y), 0, 0, 0);
+            tangent.AddVertexAt(1, new Point2d(pt2.X, pt2.Y), 0, 0, 0);
+
+            Vector3d vecTangent = tangent.GetFirstDerivative(tangent.GetParameterAtPoint(pt1));
+            vecTangent = vecTangent.GetNormal() * offset; //Define offset
+            vecTangent = vecTangent.TransformBy(Matrix3d.Rotation(Math.PI / 2, tangent.Normal, Point3d.Origin));
+            Line perpendicular = new Line(pt1 - vecTangent, pt1 + vecTangent);
+
+            Point2d pt3 = new Point2d(perpendicular.StartPoint.X, perpendicular.StartPoint.Y);
+            Point2d pt4 = new Point2d(perpendicular.EndPoint.X, perpendicular.EndPoint.Y);
+
+            Point2d[] points = { pt3, pt4 };
+
+            return points;
         }
     }
 }
