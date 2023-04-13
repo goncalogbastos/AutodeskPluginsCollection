@@ -6,6 +6,7 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Civil3D_Plugins
 {
@@ -28,8 +29,8 @@ namespace Civil3D_Plugins
                 PromptDoubleOptions pdoFrequency = new PromptDoubleOptions("\nEnter frequency: ");
                 pdoFrequency.DefaultValue = 25;
                 PromptDoubleResult frequency = ed.GetDouble(pdoFrequency);
-                
-                if(frequency.Status != PromptStatus.OK) return;
+
+                if (frequency.Status != PromptStatus.OK) return;
 
                 PromptEntityOptions opt = new PromptEntityOptions("\nSelect an alignment: ");
                 opt.SetRejectMessage("\nObject must be an alignment.");
@@ -47,7 +48,116 @@ namespace Civil3D_Plugins
 
                     ObjectId slgId = SampleLineGroup.Create($"PT{myAlignment.GetSampleLineGroupIds().Count + 1}_{frequency.Value}-{frequency.Value}m_{myAlignment.Name}", alignmentId);
                     SampleLineGroup sampleLineGroup = tr.GetObject(slgId, OpenMode.ForWrite) as SampleLineGroup;
-                    
+
+                    SectionSourceCollection sources = sampleLineGroup.GetSectionSources();
+
+                    List<string> srcNames = new List<string>();
+                    foreach (SectionSource source in sources)
+                    {
+                        Autodesk.Civil.DatabaseServices.Entity ent = source.SourceId.GetObject(OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Entity;
+                        string src = ent.Name;
+                        src = String.Concat(src.Where(c => !Char.IsWhiteSpace(c)));
+                        src = src.Replace("_", string.Empty).Replace("-", string.Empty);
+                        srcNames.Add(src);
+                    }
+                    PromptKeywordOptions pKeyOpts_Pavement = new PromptKeywordOptions("\nSelect pavement surface: ");
+                    foreach (string key in srcNames)
+                    {
+                        pKeyOpts_Pavement.Keywords.Add(key);
+                    }
+
+                    PromptKeywordOptions pKeyOpts_EG = new PromptKeywordOptions("\nSelect existing ground surface: ");
+                    foreach (string key in srcNames)
+                    {
+                        pKeyOpts_EG.Keywords.Add(key);
+                    }
+
+                    PromptResult Pav = ed.GetKeywords(pKeyOpts_Pavement);
+                    PromptResult EG = ed.GetKeywords(pKeyOpts_EG);
+
+                    //ed.WriteMessage($"\n{Pav.StringResult}");
+                    //ed.WriteMessage($"\n{EG.StringResult}");
+
+                    if (Pav.Status != PromptStatus.OK ^ EG.Status != PromptStatus.OK)
+                    {
+                        tr.Commit();
+                        return;
+                    }
+
+                    //ObjectIdCollection SurfaceIds = civil_doc.GetSurfaceIds();
+
+                    int k = 0;
+                    foreach (SectionSource source in sources)
+                    {
+                        Autodesk.Civil.DatabaseServices.Entity ent = source.SourceId.GetObject(OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Entity;
+                        string src = ent.Name;
+                        src = String.Concat(src.Where(c => !Char.IsWhiteSpace(c)));
+                        src = src.Replace("_", string.Empty).Replace("-", string.Empty);
+
+                        ed.WriteMessage($"\n\nSection: {k}-{src}");
+                        k ++;
+
+                        if (Pav.StringResult == src)
+                        {
+                            ed.WriteMessage($"\nPAV____");
+                            source.IsSampled = true;
+                            source.StyleId = civil_doc.Styles.SectionStyles["COBA_PAVIMENTO"];
+                        }
+                        //else { ; }
+
+                        if (EG.StringResult == src)
+                        {
+                            ed.WriteMessage($"\nEG____");
+                            source.IsSampled = true;
+                            source.StyleId = civil_doc.Styles.SectionStyles["COBA_Terreno Natural"];
+                        }
+                        //else { continue; }
+
+
+                        /*
+                        foreach (ObjectId surfaceId in SurfaceIds)
+                        {
+                            TinSurface oSurface = surfaceId.GetObject(OpenMode.ForRead) as TinSurface;
+                            string surf = oSurface.Name;
+                            surf = String.Concat(surf.Where(c => !Char.IsWhiteSpace(c)));
+                            surf = surf.Replace("_", string.Empty).Replace("-", string.Empty);
+                            ed.WriteMessage($"\n{surf}");
+
+                            if (Pav.StringResult == surf)
+                            {
+                                ed.WriteMessage($"\nPAV____");
+                                source.IsSampled = true;
+                                source.StyleId = civil_doc.Styles.SectionStyles["COBA_PAVIMENTO"];
+                            }
+
+                            if (EG.StringResult == surf)
+                            {
+                                ed.WriteMessage($"\nEG____");
+                                source.IsSampled = true;
+                                source.StyleId = civil_doc.Styles.SectionStyles["COBA_Terreno Natural"];
+                            }
+                        }
+                        */
+                    }                      
+
+
+
+                    /*
+                    foreach (SectionSource source in sources)
+                    {
+                        source.IsSampled = true;
+                        Autodesk.Civil.DatabaseServices.Entity ent = source.SourceId.GetObject(OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Entity;
+                        if (ent.Name.Contains("Terreno") ^ ent.Name.Contains("Classico") ^ ent.Name.Contains("Cartografia"))
+                        {
+                            source.StyleId = civil_doc.Styles.SectionStyles["COBA_Terreno Natural"];
+                        }
+                        else
+                        {
+                            source.StyleId = civil_doc.Styles.SectionStyles["COBA_PAVIMENTO"];
+                        }
+                    }
+                    */
+
                     double startStation = myAlignment.StartingStation;
                     double finalStation = myAlignment.EndingStation;
 
@@ -74,25 +184,43 @@ namespace Civil3D_Plugins
                         {
                             SampleLine sampleLine = tran.GetObject(slatStationId, OpenMode.ForWrite) as SampleLine;
                             sampleLine.StyleId = civil_doc.Styles.SampleLineStyles["PLANTA"];
-                                                        
-                            SectionSourceCollection sources = sampleLineGroup.GetSectionSources();
-                                                                                   
+
+
+                            /*
+                            List<string> srcNames = new List<string>();
+
                             foreach (SectionSource source in sources)
                             {
-                                source.IsSampled = true;
                                 Autodesk.Civil.DatabaseServices.Entity ent = source.SourceId.GetObject(OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Entity;
-                                if (ent.Name.Contains("Terreno") ^ ent.Name.Contains("Classico") ^ ent.Name.Contains("Cartografia"))
-                                {
-                                    source.StyleId = civil_doc.Styles.SectionStyles["COBA_Terreno Natural"];
-                                }
-                                else
-                                {
-                                    source.StyleId = civil_doc.Styles.SectionStyles["COBA_PAVIMENTO"];
-                                }
+                                string src = ent.Name;
+                                src = String.Concat(src.Where(c => !Char.IsWhiteSpace(c)));
+                                src = src.Replace("_", string.Empty).Replace("-", string.Empty);
+                                srcNames.Add(src);
                             }
+
+
+                            
+                            PromptKeywordOptions pKeyOpts = new PromptKeywordOptions("\nSelect the pavement section: ");
+                            foreach(string key in srcNames)
+                            {
+                                pKeyOpts.Keywords.Add(key);
+                            }
+                            PromptResult result = ed.GetKeywords(pKeyOpts);
+
+                            if (result.Status != PromptStatus.OK)
+                            {
+                                tran.Commit();
+                                return;
+                            }
+
+                            ed.WriteMessage(result.StringResult);
+                            
+
+
+                            */
                             tran.Commit();
                         }
-                        count ++;
+                        count++;
                     }
 
                     // ############## SECTION VIEWS ############## 
@@ -104,9 +232,9 @@ namespace Civil3D_Plugins
                         tr.Commit();
                         ed.Regen();
                         return;
-                    }                       
+                    }
                     sectionViewGroupColl.Add(ppr.Value);
-                    
+
                     foreach (SectionViewGroup svg in sectionViewGroupColl)
                     {
                         svg.PlotStyleId = civil_doc.Styles.GroupPlotStyles["COBA_Seções_PTransversais"];
@@ -115,7 +243,7 @@ namespace Civil3D_Plugins
                             SectionView sv = tr.GetObject(svID, OpenMode.ForWrite) as SectionView;
                             sv.StyleId = civil_doc.Styles.SectionViewStyles["COBA_Secções Transversais"];
 
-                            ObjectId bandId = civil_doc.Styles.SectionViewBandSetStyles["COBA_Pente_Cotas Terreno_Sobrl_Cotas proj_Dist proj"]; 
+                            ObjectId bandId = civil_doc.Styles.SectionViewBandSetStyles["COBA_Pente_Cotas Terreno_Sobrl_Cotas proj_Dist proj"];
                             sv.Bands.ImportBandSetStyle(bandId);
                         }
                     }
@@ -129,7 +257,7 @@ namespace Civil3D_Plugins
             {
                 ed.WriteMessage("\nException message: " + ex.Message);
             }
-            
+
         }
 
         private Point2d[] SampleLinePoints(Alignment alignment, Double station, Double offset)
@@ -158,7 +286,6 @@ namespace Civil3D_Plugins
 
             Point2d pt3 = new Point2d(perpendicular.StartPoint.X, perpendicular.StartPoint.Y);
             Point2d pt4 = new Point2d(perpendicular.EndPoint.X, perpendicular.EndPoint.Y);
-
             Point2d[] points = { pt3, pt4 };
 
             return points;

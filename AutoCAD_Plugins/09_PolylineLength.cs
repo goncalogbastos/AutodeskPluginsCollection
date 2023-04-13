@@ -15,49 +15,50 @@ namespace AutoCAD_Plugins
                 var db = doc.Database;
                 var ed = doc.Editor;
 
-                using (Transaction tr = db.TransactionManager.StartTransaction())
+                try
                 {
-                    try
+                    // Ask the user to select a polyline 
+                    PromptEntityOptions opt = new PromptEntityOptions("\nSelect a polyline: ");
+                    opt.SetRejectMessage("\nObject must be a polyline.");
+                    opt.AddAllowedClass(typeof(Polyline), true);
+                    opt.AddAllowedClass(typeof(Polyline), true);
+                    PromptEntityResult res = ed.GetEntity(opt);
+
+                    if (res.Status != PromptStatus.OK)
                     {
-                        // Ask the user to select a polyline 
-                        PromptEntityOptions opt = new PromptEntityOptions("\nSelect a polyline: ");
-                        opt.SetRejectMessage("\nObject must be a polyline.");
-                        opt.AddAllowedClass(typeof(Polyline), true);
-                        opt.AddAllowedClass(typeof(Polyline), true);
-                        PromptEntityResult res = ed.GetEntity(opt);
+                        running = false;
+                        ed.Regen();
+                        return;
+                    }
 
-                        if (res.Status != PromptStatus.OK)
-                        {
-                            running = false;
-                            return;
-                        }
+                    // Prompt the user for the alignment name
+                    PromptStringOptions pso = new PromptStringOptions("\nEnter name: ");
+                    pso.AllowSpaces = true;
+                    PromptResult pr = ed.GetString(pso);
+                    string alignmentName = pr.StringResult;
 
-                        // Prompt the user for the alignment name
-                        PromptStringOptions pso = new PromptStringOptions("\nEnter name: ");
-                        pso.AllowSpaces = true;
-                        PromptResult pr = ed.GetString(pso);
-                        string alignmentName = pr.StringResult;
+                    // Create a field with area of the polyline -> <NAME> + <FIELD> + <m>
+                    string strObjId = res.ObjectId.ToString();
+                    strObjId = strObjId.Replace("(", "");
+                    strObjId = strObjId.Replace(")", "");
+                    string field = alignmentName + "\n"
+                        + @"%<\AcObjProp Object(%<\_ObjId "
+                        + strObjId + @">%).Length \f "
+                        + "\"%lu6\""
+                        + @">%"
+                        + " m";
+                        //+ @"\U+00B2";
 
-                        // Create a field with area of the polyline -> <NAME> + <FIELD> + <m>
-                        string strObjId = res.ObjectId.ToString();
-                        strObjId = strObjId.Replace("(", "");
-                        strObjId = strObjId.Replace(")", "");
-                        string field = alignmentName + "\n"
-                            + @"%<\AcObjProp Object(%<\_ObjId "
-                            + strObjId + @">%).Length \f "
-                            + "\"%lu6\""
-                            + @">%"
-                            + " m";
-                            //+ @"\U+00B2";
+                    // Prompt the user for the insertation point
+                    PromptPointOptions pPtOpts = new PromptPointOptions("");
+                    pPtOpts.Message = "\nEnter the insertation point: ";
 
-                        // Prompt the user for the insertation point
-                        PromptPointOptions pPtOpts = new PromptPointOptions("");
-                        pPtOpts.Message = "\nEnter the insertation point: ";
+                    // Convert insertation point to 3D point
+                    PromptPointResult pPtRes = ed.GetPoint(pPtOpts);
+                    var insPt = pPtRes.Value;
 
-                        // Convert insertation point to 3D point
-                        PromptPointResult pPtRes = ed.GetPoint(pPtOpts);
-                        var insPt = pPtRes.Value;
-
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    {
                         // Open the Block table for read
                         BlockTable block_table;
                         block_table = tr.GetObject(db.BlockTableId, OpenMode.ForRead) as BlockTable;
@@ -71,18 +72,17 @@ namespace AutoCAD_Plugins
                         label.SetDatabaseDefaults();
                         label.Location = insPt;
                         label.Attachment = AttachmentPoint.MiddleCenter;
-                        label.TextHeight = 25;
+                        label.TextHeight = 0.2;
                         label.Contents = field.ToString();
                         block_table_record.AppendEntity(label);
                         tr.AddNewlyCreatedDBObject(label, true);
 
                         tr.Commit();
-                        ed.Regen();
                     }
-                    catch (Autodesk.AutoCAD.Runtime.Exception ex)
-                    {
-                        ed.WriteMessage("\nException message :" + ex.Message);
-                    }
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception ex)
+                {
+                    ed.WriteMessage("\nException message :" + ex.Message);
                 }
             }
         }
